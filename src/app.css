@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,100..700,0..1,0');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,100..700,0..1,0');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+* {
+	transition: all 0.3s ease-in-out;
+	@apply border-lightsecondary dark:border-darksecondary;
+}
+
+@theme {
+	--breakpoint-phone: 40rem;
+	--breakpoint-tablet: 48rem;
+	--breakpoint-pc: 64rem;
+	--breakpoint-pcwide: 80rem;
+
+	--container-phone: 40rem;
+	--container-tablet: 48rem;
+	--container-pc: 64rem;
+	--container-pcwide: 80rem;
+
+	--color-light: #fff;
+	--color-dark: #000;
+	--color-lightsecondary: #ddd;
+	--color-darksecondary: oklch(0.21 0.034 264.665);
+
+	--color-primary-50: oklch(0.977 0.013 236.62); /** sky-50 */
+	--color-primary-100: oklch(0.951 0.026 236.824); /** sky-100 */
+	--color-primary-200: oklch(0.901 0.058 230.902); /** sky-200 */
+	--color-primary-300: oklch(0.828 0.111 230.318); /** sky-300 */
+	--color-primary-400: oklch(0.746 0.16 232.661); /** sky-400 */
+	--color-primary-500: oklch(0.685 0.169 237.323); /** sky-500 */
+	--color-primary-600: oklch(0.588 0.158 241.966); /** sky-600 */
+	--color-primary-700: oklch(0.5 0.134 242.749); /** sky-700 */
+	--color-primary-800: oklch(0.443 0.11 240.79); /** sky-800 */
+	--color-primary-900: oklch(0.391 0.09 240.876); /** sky-900 */
+	--color-primary-950: oklch(0.293 0.066 243.157); /** sky-950 */
+
+	--color-secondary-50: oklch(0.984 0.003 247.858); /** slate-50 */
+	--color-secondary-100: oklch(0.968 0.007 247.896); /** slate-100 */
+	--color-secondary-200: oklch(0.929 0.013 255.508); /** slate-200 */
+	--color-secondary-300: oklch(0.869 0.022 252.894); /** slate-300 */
+	--color-secondary-400: oklch(0.704 0.04 256.788); /** slate-400 */
+	--color-secondary-500: oklch(0.554 0.046 257.417); /** slate-500 */
+	--color-secondary-600: oklch(0.446 0.043 257.281); /** slate-600 */
+	--color-secondary-700: oklch(0.372 0.044 257.287); /** slate-700 */
+	--color-secondary-800: oklch(0.279 0.041 260.031); /** slate-800 */
+	--color-secondary-900: oklch(0.208 0.042 265.755); /** slate-900 */
+	--color-secondary-950: oklch(0.129 0.042 264.695); /** slate-950 */
+
+	--color-success: oklch(0.723 0.219 149.579); /** green-500 */
+	--color-error: oklch(0.637 0.237 25.331); /** red-500 */
+	--color-warning: oklch(0.795 0.184 86.047); /** yellow-500 */
+	--color-info: oklch(0.623 0.214 259.815); /** blue-500 */
+}
+
+@layer utilities {
+	.mask-gradient-right {
+		-webkit-mask-image: linear-gradient(to right, transparent, black);
+		mask-image: linear-gradient(to right, transparent, black);
+	}
+	.mask-gradient-top {
+		-webkit-mask-image: linear-gradient(to top, transparent, black);
+		mask-image: linear-gradient(to top, transparent, black);
+	}
+	.mask-gradient-left {
+		-webkit-mask-image: linear-gradient(to left, transparent, black);
+		mask-image: linear-gradient(to left, transparent, black);
+	}
+	.mask-gradient-bottom {
+		-webkit-mask-image: linear-gradient(to bottom, transparent, black);
+		mask-image: linear-gradient(to bottom, transparent, black);
+	}
+
+	.px-default {
+		@apply phone:px-3 tablet:px-4 pc:px-6 px-2;
+	}
+}
+
+@utility font-caveat {
+	font-family: 'Caveat', cursive;
+	font-optical-sizing: auto;
+	font-style: normal;
+}
+
+@utility btn {
+	@apply cursor-pointer rounded-md border px-4 py-2 font-bold focus:ring-1;
+}
+
+@utility screen-major {
+	@apply max-w-phone pc:mx-0 not-pc:h-[calc(100vh-6rem)] mx-auto grow-[2] overflow-y-scroll border-x;
+}
+
+@utility screen-minor {
+	@apply pc:block hidden max-w-sm grow p-2 px-6;
+}
+
+@utility bg-default {
+	@apply bg-light dark:bg-dark;
+}
+
+@utility hover-default {
+	@apply hover:bg-lightsecondary dark:hover:bg-darksecondary;
+}
+
+@utility text-default {
+	@apply text-dark dark:text-light;
+}
+
+@utility text-invert {
+	@apply dark:text-dark text-light;
+}
+
+@layer components {
+	.icon {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Outlined';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 0,
+			'wght' 400,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-filled {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Outlined';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 1,
+			'wght' 700,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-thin {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Outlined';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 0,
+			'wght' 200,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-thick {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Outlined';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 0,
+			'wght' 700,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-rounded {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Rounded';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 0,
+			'wght' 400,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-filled-rounded {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Rounded';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 1,
+			'wght' 700,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.icon-thin-rounded {
+		vertical-align: text-bottom;
+		font-family: 'Material Symbols Rounded';
+		font-weight: normal;
+		font-style: normal;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-moz-font-feature-settings: 'liga';
+		font-feature-settings: 'liga';
+		-moz-osx-font-smoothing: grayscale;
+		font-variation-settings:
+			'FILL' 0,
+			'wght' 200,
+			'GRAD' 0,
+			'opsz' 48;
+	}
+
+	.btn-primary {
+		@apply bg-primary-500 border-primary-700! hover:bg-primary-700 focus:ring-primary-400 btn disabled:bg-primary-200 disabled:border-primary-200 disabled:hover:bg-primary-200 text-center text-white disabled:cursor-not-allowed;
+	}
+
+	.btn-secondary {
+		@apply bg-secondary-500 border-secondary-700! hover:bg-secondary-700 focus:ring-secondary-400 btn disabled:bg-secondary-200 disabled:border-secondary-200 disabled:hover:bg-secondary-200 text-center text-white disabled:cursor-not-allowed disabled:text-black!;
+	}
+
+	.btn-primary-outline {
+		@apply border-primary-500! hover:border-primary-500! text-primary-500 hover:bg-primary-500 focus:ring-primary-400 btn text-center hover:text-white;
+	}
+
+	.btn-secondary-outline {
+		@apply border-secondary-500! hover:border-secondary-500! text-secondary-500 hover:bg-secondary-500 focus:ring-secondary-400 btn text-center hover:text-white;
+	}
+
+	.btn-error {
+		@apply btn border-red-700! bg-red-500 text-center text-white hover:bg-red-700 focus:ring-red-400;
+	}
+	.btn-error-outline {
+		@apply btn border-red-500! text-center text-red-500 hover:border-red-500! hover:bg-red-500 hover:text-white focus:ring-red-400;
+	}
+
+	.btn-info {
+		@apply btn border-blue-700! bg-blue-500 text-center text-white hover:bg-blue-700 focus:ring-blue-400;
+	}
+	.btn-info-outline {
+		@apply btn border-blue-500! text-center text-blue-500 hover:border-blue-500! hover:bg-blue-500 hover:text-white focus:ring-blue-400;
+	}
+
+	.btn-success {
+		@apply btn border-green-700! bg-green-500 text-center text-white hover:bg-green-700 focus:ring-green-400;
+	}
+	.btn-success-outline {
+		@apply btn border-green-500! text-center text-green-500 hover:border-green-500! hover:bg-green-500 hover:text-white focus:ring-green-400;
+	}
+
+	.btn-dark {
+		@apply btn border-dark! bg-dark hover:bg-darksecondary focus:ring-dark text-center text-white;
+	}
+	.btn-dark-outline {
+		@apply btn border-dark! text-dark hover:border-dark! hover:bg-dark focus:ring-dark text-center hover:text-white;
+	}
+
+	.btn-light {
+		@apply btn text-dark border-light! bg-light hover:bg-lightsecondary focus:ring-light text-center;
+	}
+	.btn-light-outline {
+		@apply btn hover:text-dark border-light! text-light hover:border-light! hover:bg-light focus:ring-light text-center;
+	}
+
+	.btn-warning {
+		@apply btn border-yellow-700! bg-yellow-500 text-center text-white hover:bg-yellow-700 focus:ring-yellow-400;
+	}
+	.btn-warning-outline {
+		@apply btn border-yellow-500! text-center text-yellow-500 hover:border-yellow-700! hover:bg-yellow-700 hover:text-white focus:ring-yellow-400;
+	}
+
+	.btn-auto {
+		@apply btn border-dark! bg-dark hover:bg-darksecondary focus:ring-dark dark:btn dark:text-dark dark:border-light! dark:bg-light dark:hover:bg-lightsecondary dark:focus:ring-light text-center text-white dark:text-center;
+	}
+
+	.btn-auto-outline {
+		@apply btn border-dark! text-dark hover:border-dark! hover:bg-dark focus:ring-dark dark:btn dark:hover:text-dark dark:border-light! dark:text-light dark:hover:border-light! dark:hover:bg-light dark:focus:ring-light text-center hover:text-white dark:text-center;
+	}
+}
