@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TableEditor from '$lib/Components/TableEditor.svelte';
 	import global from '$lib/global.svelte';
 	import { onMount } from 'svelte';
 
@@ -6,7 +7,7 @@
 		global.resume || {
 			experience: [],
 			education: [],
-			skills: [],
+			skills: '',
 			certifications: [],
 			projects: [],
 			awards: [],
@@ -16,11 +17,6 @@
 		}
 	);
 
-	onMount(() => {
-		if (localStorage.resume) {
-			resume = JSON.parse(localStorage.resume);
-		}
-	});
 	$effect(() => {
 		global.resume = resume;
 		localStorage.resume = JSON.stringify(resume);
@@ -33,7 +29,8 @@
 		<button
 			class="btn-auto-outline relative h-8 w-8 rounded-full text-3xl"
 			onclick={() => {
-				global.theme = global.theme === 'light' ? 'dark' : 'light';
+				localStorage.theme = global.theme === 'light' ? 'dark' : 'light';
+				global.theme = localStorage.theme;
 			}}
 		>
 			<div class="icon absolute top-0 left-[0.125rem]">{global.theme}_mode</div>
@@ -41,7 +38,7 @@
 		<a href="/preview" class="btn-auto-outline py-1">View </a>
 	</div>
 	<div class="flex grow">
-		<div class="max-w-phone mx-auto grow border-x">
+		<div class="max-w-pc mx-auto grow border-x">
 			<div class="flex flex-col">
 				<!-- Name -->
 				<div class="bg-primary-300 dark:bg-primary-900 flex h-32 flex-col items-end gap-4 px-12">
@@ -112,470 +109,103 @@
 					</div>
 				</div>
 				<!-- Experience -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Experience</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => {
-								resume.experience!.push({
-									company: '',
-									position: '',
-									startDate: '',
-									endDate: '',
-									responsibilities: ''
-								});
-							}}>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Company</th>
-								<th>Position</th>
-								<th>Start Date</th>
-								<th>End Date</th>
-								<th>Responsibilities</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.experience! as experience}
-								<tr>
-									<td>
-										<input
-											type="text"
-											bind:value={experience.company}
-											placeholder="Enter Company Name"
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="text"
-											bind:value={experience.position}
-											placeholder="Enter Position"
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="date"
-											bind:value={experience.startDate}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="date"
-											bind:value={experience.endDate}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="text"
-											bind:value={experience.responsibilities}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() => {
-												resume.experience!.splice(resume.experience!.indexOf(experience), 1);
-											}}>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Experience"
+					headers={['Company', 'Position', 'Start Date', 'End Date', 'Responsibilities']}
+					bind:data={resume.experience!}
+					empty={{
+						company: '',
+						position: '',
+						startDate: '',
+						endDate: '',
+						responsibilities: ''
+					}}
+				/>
 				<!-- Education -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Education</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => {
-								resume.education!.push({
-									endDate: '',
-									institution: '',
-									degree: '',
-									grade: ''
-								});
-							}}>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Degree</th>
-								<th>Institution</th>
-								<th>End Date</th>
-								<th>Grade</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.education! as education}
-								<tr>
-									<td>
-										<input
-											type="text"
-											bind:value={education.degree}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="text"
-											bind:value={education.institution}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="date"
-											bind:value={education.endDate}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="text"
-											bind:value={education.grade}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() => {
-												resume.education!.splice(resume.education!.indexOf(education), 1);
-											}}>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Education"
+					headers={['Degree', 'Institution', 'End Date', 'Grade']}
+					bind:data={resume.education!}
+					empty={{
+						degree: '',
+						institution: '',
+						endDate: '',
+						grade: ''
+					}}
+				/>
 				<!-- Certificates -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Certifications</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => {
-								resume.certifications!.push({
-									name: '',
-									organization: '',
-									issueDate: ''
-								});
-							}}>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Organization</th>
-								<th>Issue Date</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.certifications! as certification}
-								<tr>
-									<td>
-										<input
-											type="text"
-											bind:value={certification.name}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="text"
-											bind:value={certification.organization}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<input
-											type="date"
-											bind:value={certification.issueDate}
-											class="block w-full rounded-lg text-xs text-black!"
-										/>
-									</td>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() => {
-												resume.certifications!.splice(
-													resume.certifications!.indexOf(certification),
-													1
-												);
-											}}>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Certificates"
+					headers={['Name', 'Organization', 'Issue Date']}
+					bind:data={resume.certifications!}
+					empty={{
+						name: '',
+						organization: '',
+						issueDate: ''
+					}}
+				/>
 				<!-- Skills -->
-				<div class="px-default min-h-12 w-full border-b py-4">
-					<div class="mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Skills</div>
-						<button class="btn-primary icon p-0" onclick={() => resume.skills!.push('')}>add</button
-						>
-					</div>
-					<div class="flex flex-wrap gap-2">
-						{#each resume.skills! as skill, i}
-							<div class="flex items-center gap-2">
-								<input
-									type="text"
-									bind:value={resume.skills![i]}
-									placeholder="Skill"
-									class="rounded-lg text-xs text-black!"
-								/>
-								<button class="btn-error icon p-1" onclick={() => resume.skills!.splice(i, 1)}
-									>delete</button
-								>
-							</div>
-						{/each}
-					</div>
+				<div class="flex flex-col gap-2 border-b px-4 py-4">
+					<div class="px-default py-4 text-2xl font-semibold">Skills</div>
+					<textarea
+						bind:value={resume.skills}
+						class="h-32 w-full resize-none border bg-transparent"
+						placeholder="Enter your Interests"
+					></textarea>
 				</div>
 				<!-- Projects -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Projects</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => resume.projects!.push({ title: '', link: '', repo: '' })}>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Link</th>
-								<th>Repo</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.projects! as project}
-								<tr>
-									<td
-										><input
-											type="text"
-											bind:value={project.title}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={project.link}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={project.repo}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() => resume.projects!.splice(resume.projects!.indexOf(project), 1)}
-											>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Projects"
+					headers={['Title', 'Link', 'Repo']}
+					bind:data={resume.projects!}
+					empty={{
+						title: '',
+						link: '',
+						repo: ''
+					}}
+				/>
 				<!-- Awards -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Awards</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => resume.awards!.push({ title: '', organization: '' })}>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Organization</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.awards! as award}
-								<tr>
-									<td
-										><input
-											type="text"
-											bind:value={award.title}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={award.organization}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() => resume.awards!.splice(resume.awards!.indexOf(award), 1)}
-											>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Awards"
+					headers={['Title', 'Organization']}
+					bind:data={resume.awards!}
+					empty={{
+						title: '',
+						organization: ''
+					}}
+				/>
 				<!-- Languages -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">Languages</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() => resume.languages!.push({ name: '', proficiency: 'Beginner' })}
-							>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Language</th>
-								<th>Proficiency</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.languages! as language}
-								<tr>
-									<td
-										><input
-											type="text"
-											bind:value={language.name}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td>
-										<select
-											bind:value={language.proficiency}
-											class="rounded-lg text-xs text-black!"
-										>
-											<option value="Beginner">Beginner</option>
-											<option value="Intermediate">Intermediate</option>
-											<option value="Advanced">Advanced</option>
-											<option value="Fluent">Fluent</option>
-											<option value="Native">Native</option>
-										</select>
-									</td>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() =>
-												resume.languages!.splice(resume.languages!.indexOf(language), 1)}
-											>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="Languages"
+					headers={['Name', 'Proficiency']}
+					bind:data={resume.languages!}
+					empty={{
+						name: '',
+						proficiency: 'Beginner'
+					}}
+				/>
 				<!-- Interests -->
-				<div class="px-default min-h-12 w-full border-b py-4">
-					<div class="mb-4 border-b text-2xl font-semibold">Interests</div>
+				<div class="flex flex-col gap-2 border-b px-4 py-4">
+					<div class="px-default py-4 text-2xl font-semibold">Interests</div>
 					<textarea
 						bind:value={resume.interests}
-						class="w-full resize-none border bg-transparent text-black!"
-						placeholder="List your interests (comma separated or paragraph)"
+						class="h-32 w-full resize-none border bg-transparent"
+						placeholder="Enter your Interests"
 					></textarea>
 				</div>
 				<!-- References -->
-				<div class="min-h-12 w-full overflow-x-scroll border-b">
-					<div class="px-default mb-4 flex items-center border-b text-2xl font-semibold">
-						<div class="grow">References</div>
-						<button
-							class="btn-primary icon p-0"
-							onclick={() =>
-								resume.references!.push({ name: '', relationship: '', email: '', phone: '' })}
-							>add</button
-						>
-					</div>
-					<table class="w-full table-auto border-collapse">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Relationship</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each resume.references! as reference}
-								<tr>
-									<td
-										><input
-											type="text"
-											bind:value={reference.name}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={reference.relationship}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={reference.email}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td
-										><input
-											type="text"
-											bind:value={reference.phone}
-											class="block w-full rounded-lg text-xs text-black!"
-										/></td
-									>
-									<td>
-										<button
-											class="btn-error icon p-1"
-											onclick={() =>
-												resume.references!.splice(resume.references!.indexOf(reference), 1)}
-											>delete</button
-										>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+				<TableEditor
+					title="References"
+					headers={['Name', 'Email', 'Phone', 'Relationship']}
+					bind:data={resume.references!}
+					empty={{
+						name: '',
+						email: '',
+						phone: '',
+						relationship: ''
+					}}
+				/>
+				<a class="btn-primary sticky bottom-4 m-4" href="/preview">View Resume</a>
 			</div>
 		</div>
 	</div>

@@ -9,6 +9,10 @@ declare global {
 		// interface Platform {}
 	}
 
+	interface Storage {
+		theme: 'light' | 'dark';
+	}
+
 	interface Experience {
 		company?: string;
 		position?: string;
@@ -70,7 +74,7 @@ declare global {
 
 		education?: Education[];
 
-		skills?: string[];
+		skills?: string;
 
 		certifications?: Certification[];
 
